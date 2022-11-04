@@ -3,7 +3,7 @@ import { toggleForm, clearForm } from "./form";
 import { fetchCards } from "./cards";
 import { Tooltip, Toast, Popover } from "bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { initdb, getDb, postDb, deleteDb } from "./database";
+import { initdb, getDb, postDb, deleteDb, editDb } from "./database";
 import "../css/index.css";
 
 
@@ -28,6 +28,7 @@ const form = document.getElementById("formToggle");
 const newContactButton = document.getElementById("new-contact");
 let submitBtnToUpdate = false;
 let profileId;
+console.log( 'profile id is: ', profileId)
 
 newContactButton.addEventListener('click', event => {
 toggleForm()
@@ -46,6 +47,13 @@ if (submitBtnToUpdate == false) {
 postDb(name, email, phone, profile);
 } else {
 
+// Obtains values passed into the form element
+let name = document.getElementById("name").value;
+let phone = document.getElementById("phone").value;
+let email = document.getElementById("email").value;
+let profile = document.querySelector('input[type="radio"]:checked').value;
+// Calls the editDB function passing in any values from the form element as well as the ID of the contact that we are updating
+editDb(profileId, name, email, phone, profile);
 fetchCards();
     // Toggles the submit button back to POST functionality
 submitBtnToUpdate = false;
@@ -65,3 +73,20 @@ window.deleteCard = (e) => {
     deleteDb(id);
     fetchCards();
 };
+
+window.editCard = (e) => {
+    profileId = parseInt(e.dataset.id);
+
+    // grab informaiton to pre populate edit form
+    let editName = e.dataset.name;
+    let editEmail = e.dataset.email;
+    let editPhone = e.dataset.phone;
+    
+    document.getElementById("name").value = editName;
+    document.getElementById("email").value = editEmail;
+    document.getElementById("phone").value = editPhone;
+    
+    form.style.display = "block";
+
+    submitBtnToUpdate = true;
+}
