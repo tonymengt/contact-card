@@ -16,7 +16,7 @@ export const initdb = async () => {
     })
 }
 
-export const getDB = async () => {
+export const getDb = async () => {
     console.log('GET from the database');
 
     // create a connection to the indexedDB database and the version we want to use.
