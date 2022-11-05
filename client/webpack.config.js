@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const {InjectManifest} = require('workbox-webpack-plugin');
 
 
 module.exports = {
@@ -14,7 +14,10 @@ module.exports = {
         template: './index.html',
         title: 'Webpack Plugin'
     }),
-    new WorkboxPlugin.GenerateSW()
+    new InjectManifest({
+        swSrc: './src/sw.js',
+        swDest: 'service-worker.js'
+      })
 ],
   module: {
     rules: [
