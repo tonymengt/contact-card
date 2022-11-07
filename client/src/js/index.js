@@ -97,3 +97,20 @@ if('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./service-worker.js');
     })
 }
+
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    installBtn.style.visibility = 'visible'
+
+    installBtn.addEventListener('click', () => {
+        event.prompt();
+        installBtn.setAttribute('disable', true);
+        installBtn.textContent = 'Installed!';
+    })
+})
+
+window.addEventListener('appinstalled', (event)=> {
+    console.log('appinstalled', event);
+})
